@@ -12,12 +12,13 @@ This project is an emergency bracelet prototype built around three parts:
 When the Arduino sends the `S` signal, the Android app sends an SMS with a Google Maps location link. When it sends `D`, the app closes the Bluetooth session.
 
 ### Main Features
-- Bluetooth communication with an HC-05 module named `Brazalete-01`
+- Bluetooth communication with a paired HC-05 module selected from the app
 - Emergency signal handling from Arduino to Android
 - Automatic SMS alert with current location
 - Emergency contact management from manual input or phone contacts
 - Local Ecuador phone normalization: `09XXXXXXXX` -> `+5939XXXXXXX`
 - Basic SMS anti-spam protection with a 60-second cooldown
+- Multi-screen Android UI with sections for Home, Contacts, and Information
 
 ### Repository Structure
 - `BrazaleteApp/`: Android application written in Kotlin
@@ -49,7 +50,7 @@ When the Arduino sends the `S` signal, the Android app sends an SMS with a Googl
 
 ### How the System Works
 1. The HC-05 is configured with the name `Brazalete-01`, PIN `2004`, slave mode, and `9600` baud.
-2. The Android app looks for a paired Bluetooth device with that exact name.
+2. The Android app shows the list of paired Bluetooth devices so the user can choose the bracelet manually.
 3. The Arduino firmware monitors:
    - Pin `3`: sends `S`
    - Pin `4`: sends `D`
@@ -102,8 +103,8 @@ These permissions are required for the app's current behavior.
 #### 5. Use the App
 - Open the app.
 - Grant all requested permissions.
-- Add one or more emergency contacts.
-- Tap `Connect to HC-05`.
+- On the `Contactos` screen, add one or more emergency contacts.
+- Return to `Inicio` and tap `Conectar brazalete`.
 - Trigger pin `3` on the Arduino to send an emergency alert.
 
 ### Notes and Limitations
@@ -130,12 +131,13 @@ Este proyecto es un prototipo de brazalete de emergencia compuesto por tres part
 Cuando el Arduino envia la senal `S`, la aplicacion Android manda un SMS con un enlace de Google Maps. Cuando envia `D`, la aplicacion cierra la conexion Bluetooth.
 
 ### Caracteristicas Principales
-- Comunicacion Bluetooth con un HC-05 llamado `Brazalete-01`
+- Comunicacion Bluetooth con un HC-05 emparejado y seleccionado desde la app
 - Recepcion de senales de emergencia desde Arduino
 - Envio automatico de SMS con ubicacion actual
 - Gestion de contactos de emergencia por ingreso manual o desde contactos del telefono
 - Normalizacion basica de numeros de Ecuador: `09XXXXXXXX` -> `+5939XXXXXXX`
 - Proteccion anti-spam de SMS con espera minima de 60 segundos
+- Interfaz Android con navegacion por pantallas de Inicio, Contactos e Informacion
 
 ### Estructura del Repositorio
 - `BrazaleteApp/`: aplicacion Android escrita en Kotlin
@@ -167,7 +169,7 @@ Cuando el Arduino envia la senal `S`, la aplicacion Android manda un SMS con un 
 
 ### Como Funciona el Sistema
 1. El HC-05 se configura con el nombre `Brazalete-01`, PIN `2004`, modo esclavo y `9600` baudios.
-2. La app Android busca un dispositivo Bluetooth ya emparejado con ese nombre exacto.
+2. La app Android muestra los dispositivos Bluetooth ya emparejados para que el usuario seleccione manualmente el brazalete.
 3. El firmware de Arduino monitorea:
    - Pin `3`: envia `S`
    - Pin `4`: envia `D`
@@ -220,8 +222,8 @@ Estos permisos son necesarios para el comportamiento actual de la app.
 #### 5. Usar la App
 - Abre la aplicacion.
 - Concede todos los permisos solicitados.
-- Agrega uno o mas contactos de emergencia.
-- Pulsa `Conectar al HC-05`.
+- En la pantalla `Contactos`, agrega uno o mas contactos de emergencia.
+- Vuelve a `Inicio` y pulsa `Conectar brazalete`.
 - Activa el pin `3` en el Arduino para enviar una alerta de emergencia.
 
 ### Notas y Limitaciones
