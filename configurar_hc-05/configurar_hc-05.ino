@@ -8,7 +8,6 @@ SoftwareSerial BT(10, 11);
 const int LED = 13;
 const int BTKEY = 12;
 
-// Configuración del módulo
 const char nombreBT[] = "Brazalete-01";
 const char pinBT[] = "2004";
 
@@ -19,11 +18,21 @@ void enviarComando(String comando, int espera = 1000) {
   BT.print(comando);
   BT.print("\r\n");
 
-  delay(espera);
+  unsigned long inicio = millis();
+  bool huboRespuesta = false;
 
   Serial.println("Respuesta:");
-  while (BT.available()) {
-    Serial.write(BT.read());
+
+  while (millis() - inicio < espera) {
+    while (BT.available()) {
+      char c = BT.read();
+      Serial.write(c);
+      huboRespuesta = true;
+    }
+  }
+
+  if (!huboRespuesta) {
+    Serial.print("[SIN RESPUESTA]");
   }
 
   Serial.println();
@@ -35,15 +44,16 @@ void setup() {
   pinMode(BTKEY, OUTPUT);
 
   Serial.begin(9600);
+  delay(1000);
 
   Serial.println("Configurador HC-05 iniciado");
   Serial.println("Preparando modo AT...");
 
-  // KEY/EN en HIGH para modo AT
   digitalWrite(BTKEY, HIGH);
 
-  // Velocidad típica del HC-05 en modo AT completo
+  // Modo AT completo del HC-05
   BT.begin(38400);
+  BT.listen();
 
   digitalWrite(LED, HIGH);
   delay(3000);
@@ -52,47 +62,46 @@ void setup() {
   Serial.println("Enviando comandos AT...");
 
   // Prueba comunicación
-  enviarComando("AT");
+  enviarComando("AT", 1000);
 
-  // Limpia dispositivos previamente emparejados
-  enviarComando("AT+RMAAD", 1500);
+  // Ver versión del módulo
+  enviarComando("AT+VERSION?", 1000);
 
   // Configura nombre visible
-  enviarComando(String("AT+NAME=") + nombreBT);
+  enviarComando(String("AT+NAME=") + nombreBT, 1000);
 
   // Configura PIN
-  enviarComando(String("AT+PSWD=") + pinBT);
+  enviarComando(String("AT+PSWD=") + pinBT, 1000);
 
-  // Configura velocidad normal: 9600, sin paridad, 1 stop bit
-  enviarComando("AT+UART=9600,0,0");
+  // Si AT+PSWD no responde OK, prueba luego con AT+PIN
+  // enviarComando(String("AT+PIN=") + pinBT, 1000);
 
-  // Modo Slave: permite que el celular se conecte al HC-05
-  enviarComando("AT+ROLE=0");
+  // Modo Slave
+  enviarComando("AT+ROLE=0", 1000);
 
   // Permite conexión desde cualquier dispositivo
-  enviarComando("AT+CMODE=1");
+  enviarComando("AT+CMODE=1", 1000);
 
-  // Consulta configuración final
-  enviarComando("AT+NAME?");
-  enviarComando("AT+PSWD?");
-  enviarComando("AT+UART?");
-  enviarComando("AT+ROLE?");
-  enviarComando("AT+CMODE?");
+  // Consultas antes de cambiar UART
+  enviarComando("AT+NAME?", 1000);
+  enviarComando("AT+PSWD?", 1000);
+  enviarComando("AT+ROLE?", 1000);
+  enviarComando("AT+CMODE?", 1000);
 
-  // Reinicia módulo
-  enviarComando("AT+RESET", 1500);
+  // Deja UART para el final
+  enviarComando("AT+UART=9600,0,0", 1000);
+
+  // NO AT+RESET
 
   digitalWrite(BTKEY, LOW);
   digitalWrite(LED, HIGH);
 
   Serial.println("Configuracion terminada.");
-  Serial.println("HC-05 configurado como SLAVE a 9600 baudios.");
-  Serial.println("Ahora apaga y enciende el modulo.");
-  Serial.println("Luego carga el codigo normal del brazalete.");
+  Serial.println("Ahora apaga y enciende manualmente el HC-05.");
+  Serial.println("Luego carga el codigo normal usando BT.begin(9600).");
 }
 
 void loop() {
-  // Puente manual para probar comandos AT desde el Monitor Serial
   if (Serial.available()) {
     BT.write(Serial.read());
   }

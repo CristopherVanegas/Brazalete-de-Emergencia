@@ -1,128 +1,731 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/mainScroll"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#101820"
-    android:fillViewport="true">
+    android:orientation="vertical"
+    android:background="@drawable/bg_app">
+
+    <FrameLayout
+        android:id="@+id/contenedorPantallas"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ScrollView
+            android:id="@+id/screenInicio"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <TextView
+                    android:id="@+id/txtSaludo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Hola"
+                    android:textColor="#17132F"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/txtTituloInicio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:text="Quien sera tu contacto de emergencia?"
+                    android:textColor="#17132F"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtDescripcionInicio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:text="Agrega o selecciona la persona a la que se enviara tu alerta."
+                    android:textColor="#5F5A72"
+                    android:textSize="16sp" />
+
+                <LinearLayout
+                    android:id="@+id/cardAgregarContacto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="22dp"
+                    android:background="@drawable/bg_card"
+                    android:elevation="4dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="24dp">
+
+                    <ImageView
+                        android:layout_width="88dp"
+                        android:layout_height="88dp"
+                        android:layout_marginBottom="18dp"
+                        android:background="@drawable/bg_circle_soft"
+                        android:contentDescription="@null"
+                        android:padding="24dp"
+                        android:scaleType="centerInside"
+                        android:src="@android:drawable/ic_menu_add"
+                        android:tint="#6D3DF5" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:gravity="center"
+                        android:text="Agregar contacto"
+                        android:textColor="#17132F"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="22dp"
+                        android:gravity="center"
+                        android:text="Ingresa o selecciona tu contacto de emergencia."
+                        android:textColor="#5F5A72"
+                        android:textSize="15sp" />
+
+                    <Button
+                        android:id="@+id/btnIrAgregarContacto"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:background="@drawable/bg_primary_button"
+                        android:text="Agregar numero"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/cardConexion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="18dp"
+                    android:background="@drawable/bg_card"
+                    android:elevation="4dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="18dp">
+
+                    <ImageView
+                        android:layout_width="58dp"
+                        android:layout_height="58dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/bg_circle_purple"
+                        android:contentDescription="@null"
+                        android:padding="14dp"
+                        android:scaleType="centerInside"
+                        android:src="@android:drawable/stat_sys_data_bluetooth"
+                        android:tint="#FFFFFF" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txtEstado"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Brazalete no conectado"
+                            android:textColor="#17132F"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtUltimoDato"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Conecta tu brazalete para comenzar."
+                            android:textColor="#5F5A72"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/txtIndicadorConexion"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:background="@drawable/bg_status_dot" />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnConectar"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginBottom="18dp"
+                    android:background="@drawable/bg_primary_button"
+                    android:text="Conectar brazalete"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/cardSenal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="18dp"
+                    android:background="@drawable/bg_card"
+                    android:elevation="4dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:gravity="center"
+                        android:text="Ultima senal recibida"
+                        android:textColor="#5F5A72"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/txtSenal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="-"
+                        android:textColor="#6D3DF5"
+                        android:textSize="96sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/cardInfoInicio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_soft_card"
+                    android:orientation="horizontal"
+                    android:padding="18dp">
+
+                    <ImageView
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        android:layout_marginEnd="12dp"
+                        android:contentDescription="@null"
+                        android:padding="10dp"
+                        android:scaleType="centerInside"
+                        android:src="@android:drawable/ic_dialog_alert"
+                        android:tint="#6D3DF5" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Cuando actives tu brazalete, se enviara un SMS de emergencia con tu ubicacion a tus contactos."
+                        android:textColor="#17132F"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+        <ScrollView
+            android:id="@+id/screenContactos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <TextView
+                    android:id="@+id/txtTituloContactos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="24dp"
+                    android:gravity="center"
+                    android:text="Mis contactos de emergencia"
+                    android:textColor="#17132F"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/cardContactoPrincipal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:background="@drawable/bg_soft_card"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/bg_circle_purple"
+                        android:contentDescription="@null"
+                        android:padding="16dp"
+                        android:scaleType="centerInside"
+                        android:src="@android:drawable/ic_menu_myplaces"
+                        android:tint="#FFFFFF" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Contactos principales"
+                            android:textColor="#17132F"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Estos numeros recibiran tu mensaje de emergencia por SMS."
+                            android:textColor="#5F5A72"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/cardNumeroEmergencia"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/bg_card"
+                    android:elevation="4dp"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
+                        android:text="Numero de emergencia"
+                        android:textColor="#5F5A72"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/edtTelefono"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="14dp"
+                        android:background="@drawable/bg_outline_input"
+                        android:hint="Ej: +593991234567"
+                        android:inputType="phone"
+                        android:textColor="#17132F"
+                        android:textColorHint="#9E9E9E"
+                        android:textSize="20sp" />
+
+                    <Button
+                        android:id="@+id/btnAgregarContacto"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/bg_primary_button"
+                        android:text="Agregar manualmente"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btnSeleccionarContacto"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:background="@drawable/bg_primary_button"
+                        android:text="Seleccionar desde contactos"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/cardListaContactos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/bg_card"
+                    android:elevation="4dp"
+                    android:orientation="vertical"
+                    android:padding="18dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:text="Contactos guardados"
+                        android:textColor="#17132F"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txtListaContactos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#F8F6FF"
+                        android:padding="12dp"
+                        android:text="No hay contactos agregados."
+                        android:textColor="#17132F"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnLimpiarContactos"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginBottom="18dp"
+                    android:background="@drawable/bg_primary_button"
+                    android:text="Limpiar contactos"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/cardInfoContactos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_soft_card"
+                    android:orientation="horizontal"
+                    android:padding="18dp">
+
+                    <ImageView
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        android:layout_marginEnd="12dp"
+                        android:contentDescription="@null"
+                        android:padding="10dp"
+                        android:scaleType="centerInside"
+                        android:src="@android:drawable/ic_menu_info_details"
+                        android:tint="#6D3DF5" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Asegurate de que los numeros sean correctos. Aqui se enviara tu alerta por SMS."
+                        android:textColor="#17132F"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+        <ScrollView
+            android:id="@+id/screenInfo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <TextView
+                    android:id="@+id/txtTituloInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="32dp"
+                    android:gravity="center"
+                    android:text="Como funciona"
+                    android:textColor="#17132F"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="28dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="78dp"
+                        android:layout_height="78dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/bg_circle_purple"
+                        android:contentDescription="@null"
+                        android:padding="18dp"
+                        android:scaleType="centerInside"
+                        android:src="@android:drawable/stat_sys_data_bluetooth"
+                        android:tint="#FFFFFF" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="1. Usas tu brazalete"
+                            android:textColor="#17132F"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:text="Si te encuentras en una situacion de emergencia, activas tu brazalete Bluetooth."
+                            android:textColor="#5F5A72"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="28dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="78dp"
+                        android:layout_height="78dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/bg_circle_purple"
+                        android:contentDescription="@null"
+                        android:padding="18dp"
+                        android:scaleType="centerInside"
+                        android:src="@android:drawable/ic_dialog_email"
+                        android:tint="#FFFFFF" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="2. Se envia el mensaje"
+                            android:textColor="#17132F"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:text="El brazalete se conecta a tu telefono y la app envia un SMS de emergencia."
+                            android:textColor="#5F5A72"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="36dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="78dp"
+                        android:layout_height="78dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/bg_circle_purple"
+                        android:contentDescription="@null"
+                        android:padding="18dp"
+                        android:scaleType="centerInside"
+                        android:src="@android:drawable/ic_menu_send"
+                        android:tint="#FFFFFF" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="3. Tu contacto recibe la alerta"
+                            android:textColor="#17132F"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:text="Tu contacto recibe un SMS con la alerta de emergencia y tu ubicacion en Google Maps."
+                            android:textColor="#5F5A72"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/cardSeguridad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_soft_card"
+                    android:orientation="horizontal"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginEnd="14dp"
+                        android:contentDescription="@null"
+                        android:padding="12dp"
+                        android:scaleType="centerInside"
+                        android:src="@android:drawable/ic_lock_lock"
+                        android:tint="#6D3DF5" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Tu seguridad es lo mas importante"
+                            android:textColor="#17132F"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:text="Tu informacion esta protegida y solo se usara en caso de emergencia."
+                            android:textColor="#5F5A72"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+    </FrameLayout>
 
     <LinearLayout
-        android:id="@+id/mainContainer"
+        android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp">
+        android:layout_height="76dp"
+        android:background="@drawable/bg_bottom_nav"
+        android:elevation="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingHorizontal="12dp">
 
-        <TextView
-            android:id="@+id/txtTitulo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Brazalete Bluetooth"
-            android:textColor="#FFFFFF"
-            android:textSize="26sp"
-            android:textStyle="bold"
+        <LinearLayout
+            android:id="@+id/navInicio"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:gravity="center"
-            android:layout_marginBottom="8dp" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/txtEstado"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="No conectado"
-            android:textColor="#D6D6D6"
-            android:textSize="18sp"
+            <ImageView
+                android:id="@+id/iconInicio"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="@null"
+                android:src="@android:drawable/ic_menu_view"
+                android:tint="#6D3DF5" />
+
+            <TextView
+                android:id="@+id/textInicio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Inicio"
+                android:textColor="#6D3DF5"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/navContactos"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:gravity="center"
-            android:layout_marginBottom="16dp" />
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnConectar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Conectar al HC-05"
-            android:layout_marginBottom="20dp" />
+            <ImageView
+                android:id="@+id/iconContactos"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="@null"
+                android:src="@android:drawable/ic_menu_myplaces"
+                android:tint="#8E8A9F" />
 
-        <TextView
-            android:id="@+id/txtSenal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="-"
-            android:textColor="#00FF66"
-            android:textSize="120sp"
-            android:textStyle="bold"
+            <TextView
+                android:id="@+id/textContactos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contactos"
+                android:textColor="#8E8A9F"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/navInfo"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:gravity="center"
-            android:layout_marginBottom="8dp" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/txtUltimoDato"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Esperando señal..."
-            android:textColor="#FFFFFF"
-            android:textSize="17sp"
-            android:gravity="center"
-            android:layout_marginBottom="28dp" />
+            <ImageView
+                android:id="@+id/iconInfo"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="@null"
+                android:src="@android:drawable/ic_menu_info_details"
+                android:tint="#8E8A9F" />
 
-        <TextView
-            android:id="@+id/txtContactosTitulo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Contactos de emergencia"
-            android:textColor="#FFFFFF"
-            android:textSize="21sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
+            <TextView
+                android:id="@+id/textInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Informacion"
+                android:textColor="#8E8A9F"
+                android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/txtContactosInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Agrega o selecciona los contactos que recibirán el SMS con tu ubicación exacta."
-            android:textColor="#CFCFCF"
-            android:textSize="15sp"
-            android:layout_marginBottom="12dp" />
-
-        <EditText
-            android:id="@+id/edtTelefono"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Ej: +593991234567"
-            android:inputType="phone"
-            android:textColor="#FFFFFF"
-            android:textColorHint="#9E9E9E"
-            android:backgroundTint="#00FF66"
-            android:layout_marginBottom="12dp" />
-
-        <Button
-            android:id="@+id/btnAgregarContacto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Agregar contacto manualmente"
-            android:layout_marginBottom="12dp" />
-
-        <Button
-            android:id="@+id/btnSeleccionarContacto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Seleccionar desde contactos"
-            android:layout_marginBottom="12dp" />
-
-        <Button
-            android:id="@+id/btnLimpiarContactos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Limpiar contactos"
-            android:layout_marginBottom="16dp" />
-
-        <TextView
-            android:id="@+id/txtListaContactos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="No hay contactos agregados."
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:background="#1A2A33"
-            android:padding="14dp" />
+        </LinearLayout>
 
     </LinearLayout>
 
-</ScrollView>
+</LinearLayout>
