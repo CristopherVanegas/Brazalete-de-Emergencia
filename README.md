@@ -2,7 +2,7 @@
 
 Version: `1.1`
 
-[English](#english) | [Espanol](#espanol)
+[English](#english) | [Español](#español)
 
 ---
 
@@ -133,7 +133,7 @@ This is a prototype. It should not be treated as a certified medical, personal s
 
 ---
 
-## Espanol
+## Español
 
 ### Descripcion General
 Este proyecto es un prototipo de brazalete de emergencia compuesto por tres partes:
