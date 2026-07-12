@@ -1,5 +1,11 @@
 # Emergency Bracelet / Brazalete de Emergencia
 
+Version: `1.1`
+
+[English](#english) | [Espanol](#espanol)
+
+---
+
 ## English
 
 ### Overview
@@ -24,7 +30,13 @@ When the Arduino sends the `S` signal, the Android app sends an SMS with a Googl
 - `BrazaleteApp/`: Android application written in Kotlin
 - `BrazaleteCpp/BrazaleteCpp.ino`: main Arduino firmware
 - `configurar_hc-05/configurar_hc-05.ino`: HC-05 configuration sketch
+- `prueba-botones/prueba-botones.ino`: simple button and LED test sketch
 - `cotizacion_brazalete.xlsx`: cost estimate or project budget spreadsheet
+- `Fritzing/Circuito.fzz`: editable Fritzing source file for the circuit
+- `Fritzing/Circuito_image.jpg`: circuit image for the hardware documentation
+
+### Circuit Image
+![Circuit diagram](Fritzing/Circuito_image.jpg)
 
 ### Hardware
 - Arduino-compatible board
@@ -117,6 +129,8 @@ These permissions are required for the app's current behavior.
 ### Safety Notice
 This is a prototype. It should not be treated as a certified medical, personal security, or life-critical system without additional hardware validation, field testing, power-failure handling, and operational review.
 
+[Back to top](#emergency-bracelet--brazalete-de-emergencia)
+
 ---
 
 ## Espanol
@@ -143,7 +157,13 @@ Cuando el Arduino envia la senal `S`, la aplicacion Android manda un SMS con un 
 - `BrazaleteApp/`: aplicacion Android escrita en Kotlin
 - `BrazaleteCpp/BrazaleteCpp.ino`: firmware principal de Arduino
 - `configurar_hc-05/configurar_hc-05.ino`: programa para configurar el HC-05
+- `prueba-botones/prueba-botones.ino`: programa simple para probar botones y LED
 - `cotizacion_brazalete.xlsx`: hoja de costos o presupuesto del proyecto
+- `Fritzing/Circuito.fzz`: archivo editable de Fritzing del circuito
+- `Fritzing/Circuito_image.jpg`: imagen del circuito para la documentacion del hardware
+
+### Imagen del Circuito
+![Diagrama del circuito](Fritzing/Circuito_image.jpg)
 
 ### Hardware
 - Placa compatible con Arduino
@@ -235,3 +255,5 @@ Estos permisos son necesarios para el comportamiento actual de la app.
 
 ### Aviso de Seguridad
 Este proyecto es un prototipo. No debe considerarse un sistema medico, de seguridad personal o de uso critico sin validacion adicional de hardware, pruebas en campo, manejo de fallos de energia y revision operativa.
+
+[Volver arriba](#emergency-bracelet--brazalete-de-emergencia)

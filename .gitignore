@@ -15,6 +15,8 @@ captures/
 *.aab
 *.apk
 output-metadata.json
+BrazaleteApp/app/release/
+.gradle-header/
 
 # IntelliJ
 *.iml
@@ -26,6 +28,7 @@ render.experimental.xml
 # Keystore files
 *.jks
 *.keystore
+KeyStore/
 
 # Google Services (e.g. APIs or Firebase)
 google-services.json
