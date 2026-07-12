@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
 import android.bluetooth.BluetoothSocket
 import android.content.Context
+import android.content.res.ColorStateList
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -43,8 +44,15 @@ import java.io.IOException
 import java.io.InputStream
 import java.util.UUID
 import kotlin.concurrent.thread
+import org.json.JSONArray
+import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
+
+    private data class ContactoEmergencia(
+        val nombre: String,
+        val telefono: String
+    )
 
     private lateinit var txtEstado: TextView
     private lateinit var txtSenal: TextView
@@ -52,14 +60,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnConectar: Button
     private lateinit var txtIndicadorConexion: TextView
 
+    private lateinit var edtNombreContacto: EditText
     private lateinit var edtTelefono: EditText
-    private lateinit var btnAgregarContacto: Button
-    private lateinit var btnSeleccionarContacto: Button
-    private lateinit var btnLimpiarContactos: Button
-    private lateinit var txtListaContactos: TextView
-    private lateinit var btnIrAgregarContacto: Button
+    private lateinit var btnAgregarContacto: ImageButton
+    private lateinit var btnSeleccionarContacto: ImageButton
+    private lateinit var btnLimpiarContactos: ImageButton
+    private lateinit var containerContactosGuardados: LinearLayout
+    private lateinit var btnIrAgregarContacto: ImageButton
     private lateinit var btnInfoSenal: ImageButton
     private lateinit var btnInfoContactos: ImageButton
+    private lateinit var btnHeaderLogo: ImageButton
 
     private lateinit var screenInicio: View
     private lateinit var screenContactos: View
@@ -96,7 +106,7 @@ class MainActivity : AppCompatActivity() {
     private val uuidSPP: UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
     private val requestPermisos = 1001
 
-    private val contactosEmergencia = mutableListOf<String>()
+    private val contactosEmergencia = mutableListOf<ContactoEmergencia>()
     private val prefsName = "BrazaletePrefs"
     private val contactosKey = "contactos_emergencia"
 
@@ -106,10 +116,10 @@ class MainActivity : AppCompatActivity() {
     private val handler = Handler(Looper.getMainLooper())
     private val tiempoMostrarDato = 3000L
 
-    private val colorPrimario = Color.parseColor("#6D3DF5")
-    private val colorInactivo = Color.parseColor("#8E8A9F")
+    private val colorPrimario = Color.parseColor("#0F66E6")
+    private val colorInactivo = Color.parseColor("#A7A0F7")
     private val colorVerde = Color.parseColor("#2ECC71")
-    private val colorGris = Color.parseColor("#D6D1E8")
+    private val colorRojo = Color.parseColor("#E53935")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -119,6 +129,8 @@ class MainActivity : AppCompatActivity() {
         configurarSelectorContactos()
         configurarNavegacion()
         configurarAccionesAyuda()
+        txtIndicadorConexion.backgroundTintList = ColorStateList.valueOf(colorRojo)
+        btnHeaderLogo.setOnClickListener { mostrarPantalla("inicio") }
 
         bluetoothAdapter = obtenerBluetoothAdapter()
         if (bluetoothAdapter == null) {
@@ -170,14 +182,16 @@ class MainActivity : AppCompatActivity() {
         btnConectar = findViewById(R.id.btnConectar)
         txtIndicadorConexion = findViewById(R.id.txtIndicadorConexion)
 
+        edtNombreContacto = findViewById(R.id.edtNombreContacto)
         edtTelefono = findViewById(R.id.edtTelefono)
         btnAgregarContacto = findViewById(R.id.btnAgregarContacto)
         btnSeleccionarContacto = findViewById(R.id.btnSeleccionarContacto)
         btnLimpiarContactos = findViewById(R.id.btnLimpiarContactos)
-        txtListaContactos = findViewById(R.id.txtListaContactos)
+        containerContactosGuardados = findViewById(R.id.containerContactosGuardados)
         btnIrAgregarContacto = findViewById(R.id.btnIrAgregarContacto)
         btnInfoSenal = findViewById(R.id.btnInfoSenal)
         btnInfoContactos = findViewById(R.id.btnInfoContactos)
+        btnHeaderLogo = findViewById(R.id.btnHeaderLogo)
 
         screenInicio = findViewById(R.id.screenInicio)
         screenContactos = findViewById(R.id.screenContactos)
@@ -246,7 +260,7 @@ class MainActivity : AppCompatActivity() {
     private fun configurarAccionesAutores() {
         cardAutorJoanie?.setOnClickListener { mostrarAutorModal(R.drawable.autor_joanie, "Joanie Barzola") }
         cardAutorSara?.setOnClickListener { mostrarAutorModal(R.drawable.autor_sara, "Sara Ruiz") }
-        cardAutorVictor?.setOnClickListener { mostrarAutorModal(R.drawable.autor_victor, "Víctor Elbarro") }
+        cardAutorVictor?.setOnClickListener { mostrarAutorModal(R.drawable.autor_victor, "Víctor Navarro") }
         cardAutorDomenica?.setOnClickListener { mostrarAutorModal(R.drawable.autor_domenica, "Domenica Macas") }
         cardAutorAileen?.setOnClickListener { mostrarAutorModal(R.drawable.autor_aileen, "Aileen Macias") }
     }
@@ -460,7 +474,7 @@ class MainActivity : AppCompatActivity() {
         txtUltimoDato.text = detalle
         btnConectar.text = if (estaConectado) "Desconectar" else "Conectar brazalete"
         btnConectar.isEnabled = true
-        txtIndicadorConexion.setBackgroundColor(if (estaConectado) colorVerde else colorGris)
+        txtIndicadorConexion.backgroundTintList = ColorStateList.valueOf(if (estaConectado) colorVerde else colorRojo)
     }
 
     private fun escucharDatos() {
@@ -502,7 +516,7 @@ class MainActivity : AppCompatActivity() {
                 conectado = false
                 cerrarConexion()
                 btnConectar.text = "Conectar brazalete"
-                txtIndicadorConexion.setBackgroundColor(colorGris)
+                txtIndicadorConexion.backgroundTintList = ColorStateList.valueOf(colorRojo)
                 handler.postDelayed({
                     txtSenal.text = "-"
                     txtUltimoDato.text = "Esperando señal..."
@@ -517,6 +531,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun agregarContactoManual() {
         val telefono = edtTelefono.text.toString().trim()
+        val nombre = edtNombreContacto.text.toString().trim()
         if (telefono.isEmpty()) {
             Toast.makeText(this, "Ingresa un número", Toast.LENGTH_SHORT).show()
             return
@@ -528,8 +543,9 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        agregarContactoALista("Contacto manual", telefonoLimpio)
+        agregarContactoALista(nombre.ifBlank { "Contacto manual" }, telefonoLimpio)
         edtTelefono.text.clear()
+        edtNombreContacto.text.clear()
     }
 
     private fun configurarSelectorContactos() {
@@ -573,13 +589,17 @@ class MainActivity : AppCompatActivity() {
                     val nombre = if (nombreIndex >= 0) it.getString(nombreIndex) else "Contacto"
                     val numeroOriginal = if (numeroIndex >= 0) it.getString(numeroIndex) else ""
                     val numeroLimpio = limpiarNumeroTelefono(numeroOriginal)
+                    val nombreIngresado = edtNombreContacto.text.toString().trim()
+                    val nombreFinal = nombreIngresado.ifBlank { nombre }
 
                     if (numeroLimpio.isBlank()) {
                         Toast.makeText(this, "El contacto no tiene número válido", Toast.LENGTH_SHORT).show()
                         return
                     }
 
-                    agregarContactoALista(nombre, numeroLimpio)
+                    agregarContactoALista(nombreFinal, numeroLimpio)
+                    edtTelefono.text.clear()
+                    edtNombreContacto.text.clear()
                 }
             }
         } catch (e: Exception) {
@@ -603,20 +623,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun agregarContactoALista(nombre: String, telefono: String) {
-        if (contactosEmergencia.contains(telefono)) {
+        if (contactosEmergencia.any { it.telefono == telefono }) {
             Toast.makeText(this, "Ese contacto ya está agregado", Toast.LENGTH_SHORT).show()
             return
         }
 
-        contactosEmergencia.add(telefono)
+        val nombreLimpio = nombre.trim().ifBlank { telefono }
+        contactosEmergencia.add(ContactoEmergencia(nombreLimpio, telefono))
         guardarContactos()
         actualizarListaContactos()
-        Toast.makeText(this, "$nombre agregado como contacto de emergencia", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "$nombreLimpio agregado como contacto de emergencia", Toast.LENGTH_LONG).show()
     }
 
     private fun guardarContactos() {
         val prefs = getSharedPreferences(prefsName, MODE_PRIVATE)
-        prefs.edit().putString(contactosKey, contactosEmergencia.joinToString(",")).apply()
+        val json = JSONArray()
+        contactosEmergencia.forEach { contacto ->
+            val item = JSONObject()
+                .put("nombre", contacto.nombre)
+                .put("telefono", contacto.telefono)
+            json.put(item)
+        }
+        prefs.edit().putString(contactosKey, json.toString()).apply()
     }
 
     private fun cargarContactos() {
@@ -625,16 +653,71 @@ class MainActivity : AppCompatActivity() {
         contactosEmergencia.clear()
 
         if (contactosTexto.isNotBlank()) {
-            contactosEmergencia.addAll(contactosTexto.split(",").map { it.trim() }.filter { it.isNotEmpty() })
+            if (contactosTexto.trimStart().startsWith("[")) {
+                try {
+                    val array = JSONArray(contactosTexto)
+                    for (i in 0 until array.length()) {
+                        val item = array.optJSONObject(i) ?: continue
+                        val telefono = item.optString("telefono").trim()
+                        if (telefono.isBlank()) continue
+                        val nombre = item.optString("nombre").trim().ifBlank { telefono }
+                        contactosEmergencia.add(ContactoEmergencia(nombre, telefono))
+                    }
+                } catch (_: Exception) {
+                    contactosTexto.split(",")
+                        .map { it.trim() }
+                        .filter { it.isNotEmpty() }
+                        .forEach { numero ->
+                            contactosEmergencia.add(ContactoEmergencia("Contacto guardado", numero))
+                        }
+                }
+            } else {
+                contactosTexto.split(",")
+                    .map { it.trim() }
+                    .filter { it.isNotEmpty() }
+                    .forEach { numero ->
+                        contactosEmergencia.add(ContactoEmergencia("Contacto guardado", numero))
+                    }
+            }
         }
     }
 
     private fun actualizarListaContactos() {
-        txtListaContactos.text = if (contactosEmergencia.isEmpty()) {
-            "No hay contactos agregados."
-        } else {
-            contactosEmergencia.mapIndexed { index, contacto -> "${index + 1}. $contacto" }.joinToString("\n")
+        containerContactosGuardados.removeAllViews()
+
+        if (contactosEmergencia.isEmpty()) {
+            val mensajeVacio = TextView(this).apply {
+                text = "No hay contactos agregados."
+                setTextColor(Color.parseColor("#010A28"))
+                textSize = 16f
+            }
+            containerContactosGuardados.addView(mensajeVacio)
+            return
         }
+
+        contactosEmergencia.forEachIndexed { index, contacto ->
+            val filaContacto = LayoutInflater.from(this).inflate(R.layout.item_contacto_guardado, containerContactosGuardados, false)
+            val txtNombre = filaContacto.findViewById<TextView>(R.id.txtContactoNombre)
+            val txtNumero = filaContacto.findViewById<TextView>(R.id.txtContactoNumero)
+            val btnEliminar = filaContacto.findViewById<ImageButton>(R.id.btnEliminarContacto)
+
+            txtNombre.text = contacto.nombre
+            txtNumero.text = "${index + 1}. ${contacto.telefono}"
+            btnEliminar.setOnClickListener {
+                eliminarContacto(contacto.telefono)
+            }
+
+            containerContactosGuardados.addView(filaContacto)
+        }
+    }
+
+    private fun eliminarContacto(telefono: String) {
+        val eliminado = contactosEmergencia.removeAll { it.telefono == telefono }
+        if (!eliminado) return
+
+        guardarContactos()
+        actualizarListaContactos()
+        Toast.makeText(this, "Contacto eliminado", Toast.LENGTH_SHORT).show()
     }
 
     private fun enviarAlertaEmergencia() {
@@ -758,7 +841,8 @@ class MainActivity : AppCompatActivity() {
                 SmsManager.getDefault()
             }
 
-            contactosEmergencia.forEach { numero ->
+            contactosEmergencia.forEach { contacto ->
+                val numero = contacto.telefono
                 val partes = smsManager.divideMessage(mensajeSms)
                 if (partes.size > 1) {
                     smsManager.sendMultipartTextMessage(numero, null, partes, null, null)
@@ -825,5 +909,3 @@ class MainActivity : AppCompatActivity() {
         }, tiempoMostrarDato)
     }
 }
-
-

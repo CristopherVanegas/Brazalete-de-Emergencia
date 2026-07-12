@@ -7,6 +7,38 @@
     android:orientation="vertical"
     android:background="@drawable/bg_app">
 
+    <LinearLayout
+        android:id="@+id/headerApp"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="@color/app_cold_white"
+        android:elevation="6dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp">
+
+        <ImageButton
+            android:id="@+id/btnHeaderLogo"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_circle_soft"
+            android:contentDescription="Ir al inicio"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/app_icon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:text="SOS Wear"
+            android:textColor="@color/app_navy_deep"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
     <FrameLayout
         android:id="@+id/contenedorPantallas"
         android:layout_width="match_parent"
@@ -27,35 +59,46 @@
                 android:padding="24dp">
 
                 <TextView
-                    android:id="@+id/txtNombreAppInicio"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="2dp"
-                    android:text="SOS Wear"
-                    android:textColor="#6D3DF5"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
                     android:id="@+id/txtSaludo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="12dp"
                     android:layout_marginBottom="8dp"
                     android:text="Hola"
-                    android:textColor="#17132F"
-                    android:textSize="18sp" />
+                    android:textColor="@color/app_navy_deep"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/txtTituloInicio"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
-                    android:text="¿Quién será tu contacto de emergencia?"
-                    android:textColor="#17132F"
-                    android:textSize="28sp"
-                    android:textStyle="bold" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/txtTituloInicio"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="¿Quién será tu contacto de emergencia?"
+                        android:textColor="@color/app_navy_deep"
+                        android:textSize="28sp"
+                        android:textStyle="bold" />
+
+                    <ImageButton
+                        android:id="@+id/btnIrAgregarContacto"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:layout_marginStart="12dp"
+                        android:background="@drawable/bg_circle_soft"
+                        android:contentDescription="Contactos de emergencia"
+                        android:padding="10dp"
+                        android:scaleType="centerInside"
+                        android:src="@android:drawable/ic_menu_call"
+                        android:tint="@color/app_electric_blue" />
+
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/txtDescripcionInicio"
@@ -63,35 +106,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="24dp"
                     android:text="Agrega o selecciona a la persona a la que se enviará tu alerta."
-                    android:textColor="#5F5A72"
+                    android:textColor="@color/app_indigo"
                     android:textSize="16sp" />
-
-                <LinearLayout
-                    android:id="@+id/cardAgregarContacto"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="22dp"
-                    android:background="@drawable/bg_card"
-                    android:elevation="4dp"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="24dp">
-
-                    <Button
-                        android:id="@+id/btnIrAgregarContacto"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:background="@drawable/bg_primary_button"
-                        android:gravity="center"
-                        android:text="Contactos de emergencia"
-                        android:drawableStart="@android:drawable/ic_menu_add"
-                        android:drawablePadding="10dp"
-                        android:paddingStart="18dp"
-                        android:textColor="#FFFFFF"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/cardConexion"
@@ -118,7 +134,7 @@
                             android:padding="14dp"
                             android:scaleType="centerInside"
                             android:src="@android:drawable/stat_sys_data_bluetooth"
-                            android:tint="#FFFFFF" />
+                            android:tint="@color/white" />
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -131,7 +147,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Brazalete no conectado"
-                                android:textColor="#17132F"
+                                android:textColor="@color/app_navy_deep"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
 
@@ -141,7 +157,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
                                 android:text="Conecta tu brazalete para comenzar."
-                                android:textColor="#5F5A72"
+                                android:textColor="@color/app_indigo"
                                 android:textSize="14sp" />
 
                         </LinearLayout>
@@ -161,7 +177,7 @@
                         android:layout_marginTop="16dp"
                         android:background="@drawable/bg_primary_button"
                         android:text="Conectar brazalete"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/white"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -193,7 +209,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="Última señal recibida"
-                                android:textColor="#5F5A72"
+                                android:textColor="@color/app_indigo"
                                 android:textSize="15sp" />
 
                             <ImageButton
@@ -205,7 +221,7 @@
                                 android:padding="6dp"
                                 android:scaleType="centerInside"
                                 android:src="@android:drawable/ic_menu_info_details"
-                                android:tint="#6D3DF5" />
+                                android:tint="@color/app_electric_blue" />
 
                         </LinearLayout>
 
@@ -215,7 +231,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="-"
-                            android:textColor="#6D3DF5"
+                            android:textColor="@color/app_electric_blue"
                             android:textSize="96sp"
                             android:textStyle="bold" />
 
@@ -246,7 +262,7 @@
                     android:layout_marginBottom="24dp"
                     android:gravity="center"
                     android:text="Mis contactos de emergencia"
-                    android:textColor="#17132F"
+                    android:textColor="@color/app_navy_deep"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
@@ -269,7 +285,7 @@
                         android:padding="16dp"
                         android:scaleType="centerInside"
                         android:src="@android:drawable/ic_menu_myplaces"
-                        android:tint="#FFFFFF" />
+                        android:tint="@color/white" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -281,7 +297,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Contactos principales"
-                            android:textColor="#17132F"
+                            android:textColor="@color/app_navy_deep"
                             android:textSize="18sp"
                             android:textStyle="bold" />
 
@@ -290,7 +306,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="Estos números recibirán tu mensaje de emergencia por SMS."
-                            android:textColor="#5F5A72"
+                            android:textColor="@color/app_indigo"
                             android:textSize="14sp" />
 
                     </LinearLayout>
@@ -319,7 +335,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Número de emergencia"
-                            android:textColor="#5F5A72"
+                            android:textColor="@color/app_indigo"
                             android:textSize="14sp" />
 
                         <ImageButton
@@ -331,9 +347,21 @@
                             android:padding="6dp"
                             android:scaleType="centerInside"
                             android:src="@android:drawable/ic_menu_info_details"
-                            android:tint="#6D3DF5" />
+                            android:tint="@color/app_electric_blue" />
 
                     </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/edtNombreContacto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:background="@drawable/bg_outline_input"
+                        android:hint="Nombre opcional"
+                        android:inputType="textPersonName"
+                        android:textColor="@color/app_navy_deep"
+                        android:textColorHint="#9E9E9E"
+                        android:textSize="18sp" />
 
                     <EditText
                         android:id="@+id/edtTelefono"
@@ -343,28 +371,42 @@
                         android:background="@drawable/bg_outline_input"
                         android:hint="Ej: +593991234567"
                         android:inputType="phone"
-                        android:textColor="#17132F"
+                        android:textColor="@color/app_navy_deep"
                         android:textColorHint="#9E9E9E"
                         android:textSize="20sp" />
 
-                    <Button
-                        android:id="@+id/btnAgregarContacto"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="54dp"
-                        android:layout_marginBottom="10dp"
-                        android:background="@drawable/bg_primary_button"
-                        android:text="Agregar número"
-                        android:textColor="#FFFFFF"
-                        android:textStyle="bold" />
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
-                    <Button
-                        android:id="@+id/btnSeleccionarContacto"
-                        android:layout_width="match_parent"
-                        android:layout_height="54dp"
-                        android:background="@drawable/bg_primary_button"
-                        android:text="Seleccionar desde contactos"
-                        android:textColor="#FFFFFF"
-                        android:textStyle="bold" />
+                        <ImageButton
+                            android:id="@+id/btnAgregarContacto"
+                            android:layout_width="0dp"
+                            android:layout_height="54dp"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="10dp"
+                            android:background="@drawable/bg_circle_soft"
+                            android:contentDescription="Agregar número"
+                            android:padding="14dp"
+                            android:scaleType="centerInside"
+                            android:src="@android:drawable/ic_input_add"
+                            android:tint="@color/app_electric_blue" />
+
+                        <ImageButton
+                            android:id="@+id/btnSeleccionarContacto"
+                            android:layout_width="0dp"
+                            android:layout_height="54dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_circle_soft"
+                            android:contentDescription="Seleccionar desde contactos"
+                            android:padding="14dp"
+                            android:scaleType="centerInside"
+                            android:src="@android:drawable/ic_menu_myplaces"
+                            android:tint="@color/app_electric_blue" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -378,36 +420,44 @@
                     android:orientation="vertical"
                     android:padding="18dp">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:text="Contactos guardados"
-                        android:textColor="#17132F"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/txtListaContactos"
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Contactos guardados"
+                            android:textColor="@color/app_navy_deep"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <ImageButton
+                            android:id="@+id/btnLimpiarContactos"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/bg_circle_soft"
+                            android:contentDescription="Limpiar contactos"
+                            android:padding="7dp"
+                            android:scaleType="centerInside"
+                            android:src="@android:drawable/ic_menu_delete"
+                            android:tint="@color/app_electric_blue" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/containerContactosGuardados"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="#F8F6FF"
-                        android:padding="12dp"
-                        android:text="No hay contactos agregados."
-                        android:textColor="#17132F"
-                        android:textSize="16sp" />
+                        android:background="@color/app_cold_white"
+                        android:orientation="vertical"
+                        android:padding="12dp" />
 
                 </LinearLayout>
-
-                <Button
-                    android:id="@+id/btnLimpiarContactos"
-                    android:layout_width="match_parent"
-                    android:layout_height="54dp"
-                    android:layout_marginBottom="18dp"
-                    android:background="@drawable/bg_primary_button"
-                    android:text="Limpiar contactos"
-                    android:textColor="#FFFFFF"
-                    android:textStyle="bold" />
 
             </LinearLayout>
         </ScrollView>
@@ -433,9 +483,54 @@
                     android:layout_marginBottom="32dp"
                     android:gravity="center"
                     android:text="Cómo funciona"
-                    android:textColor="#17132F"
+                    android:textColor="@color/app_navy_deep"
                     android:textSize="24sp"
                     android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/cardSeguridad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="28dp"
+                    android:background="@drawable/bg_soft_card"
+                    android:orientation="horizontal"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginEnd="14dp"
+                        android:contentDescription="@null"
+                        android:padding="12dp"
+                        android:scaleType="centerInside"
+                        android:src="@android:drawable/ic_lock_lock"
+                        android:tint="@color/app_electric_blue" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Tu seguridad es lo más importante"
+                            android:textColor="@color/app_navy_deep"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:text="Tu información está protegida y solo se usará en caso de emergencia."
+                            android:textColor="@color/app_indigo"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -453,7 +548,7 @@
                         android:padding="18dp"
                         android:scaleType="centerInside"
                         android:src="@android:drawable/stat_sys_data_bluetooth"
-                        android:tint="#FFFFFF" />
+                        android:tint="@color/white" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -465,7 +560,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="1. Usas tu brazalete"
-                            android:textColor="#17132F"
+                            android:textColor="@color/app_navy_deep"
                             android:textSize="18sp"
                             android:textStyle="bold" />
 
@@ -474,7 +569,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
                             android:text="Si te encuentras en una situación de emergencia, activas tu brazalete Bluetooth."
-                            android:textColor="#5F5A72"
+                            android:textColor="@color/app_indigo"
                             android:textSize="15sp" />
 
                     </LinearLayout>
@@ -497,7 +592,7 @@
                         android:padding="18dp"
                         android:scaleType="centerInside"
                         android:src="@android:drawable/ic_dialog_email"
-                        android:tint="#FFFFFF" />
+                        android:tint="@color/white" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -509,7 +604,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="2. Se envia el mensaje"
-                            android:textColor="#17132F"
+                            android:textColor="@color/app_navy_deep"
                             android:textSize="18sp"
                             android:textStyle="bold" />
 
@@ -518,7 +613,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
                             android:text="El brazalete se conecta a tu teléfono y la app envía un SMS de emergencia."
-                            android:textColor="#5F5A72"
+                            android:textColor="@color/app_indigo"
                             android:textSize="15sp" />
 
                     </LinearLayout>
@@ -541,7 +636,7 @@
                         android:padding="18dp"
                         android:scaleType="centerInside"
                         android:src="@android:drawable/ic_menu_send"
-                        android:tint="#FFFFFF" />
+                        android:tint="@color/white" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -553,7 +648,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="3. Tu contacto recibe la alerta"
-                            android:textColor="#17132F"
+                            android:textColor="@color/app_navy_deep"
                             android:textSize="18sp"
                             android:textStyle="bold" />
 
@@ -562,52 +657,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
                             android:text="Tu contacto recibe un SMS con la alerta de emergencia y tu ubicación en Google Maps."
-                            android:textColor="#5F5A72"
+                            android:textColor="@color/app_indigo"
                             android:textSize="15sp" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/cardSeguridad"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_soft_card"
-                    android:orientation="horizontal"
-                    android:padding="20dp">
-
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_marginEnd="14dp"
-                        android:contentDescription="@null"
-                        android:padding="12dp"
-                        android:scaleType="centerInside"
-                        android:src="@android:drawable/ic_lock_lock"
-                        android:tint="#6D3DF5" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Tu seguridad es lo más importante"
-                            android:textColor="#17132F"
-                            android:textSize="17sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:text="Tu información está protegida y solo se usará en caso de emergencia."
-                            android:textColor="#5F5A72"
-                            android:textSize="14sp" />
 
                     </LinearLayout>
 
@@ -649,14 +700,14 @@
                 android:layout_height="24dp"
                 android:contentDescription="@null"
                 android:src="@android:drawable/ic_menu_view"
-                android:tint="#6D3DF5" />
+                android:tint="@color/app_electric_blue" />
 
             <TextView
                 android:id="@+id/textInicio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Inicio"
-                android:textColor="#6D3DF5"
+                android:textColor="@color/app_electric_blue"
                 android:textSize="12sp" />
 
         </LinearLayout>
@@ -675,14 +726,14 @@
                 android:layout_height="24dp"
                 android:contentDescription="@null"
                 android:src="@android:drawable/ic_menu_call"
-                android:tint="#8E8A9F" />
+                android:tint="@color/app_lavender" />
 
             <TextView
                 android:id="@+id/textContactos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Contactos"
-                android:textColor="#8E8A9F"
+                android:textColor="@color/app_lavender"
                 android:textSize="12sp" />
 
         </LinearLayout>
@@ -701,14 +752,14 @@
                 android:layout_height="24dp"
                 android:contentDescription="@null"
                 android:src="@android:drawable/ic_menu_info_details"
-                android:tint="#8E8A9F" />
+                android:tint="@color/app_lavender" />
 
             <TextView
                 android:id="@+id/textInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Información"
-                android:textColor="#8E8A9F"
+                android:textColor="@color/app_lavender"
                 android:textSize="12sp" />
 
         </LinearLayout>
@@ -727,14 +778,14 @@
                 android:layout_height="24dp"
                 android:contentDescription="@null"
                 android:src="@android:drawable/ic_menu_myplaces"
-                android:tint="#8E8A9F" />
+                android:tint="@color/app_lavender" />
 
             <TextView
                 android:id="@+id/textAutores"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Autores"
-                android:textColor="#8E8A9F"
+                android:textColor="@color/app_lavender"
                 android:textSize="12sp" />
 
         </LinearLayout>
@@ -742,5 +793,6 @@
     </LinearLayout>
 
 </LinearLayout>
+
 
 
