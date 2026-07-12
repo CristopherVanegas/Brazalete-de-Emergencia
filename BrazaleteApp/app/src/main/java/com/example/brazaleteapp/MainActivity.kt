@@ -1,4 +1,4 @@
-package com.example.brazaleteapp
+﻿package com.example.brazaleteapp
 
 import android.Manifest
 import android.app.Activity
@@ -10,6 +10,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -21,19 +22,23 @@ import android.os.Looper
 import android.provider.ContactsContract
 import android.telephony.SmsManager
 import android.view.View
+import android.view.LayoutInflater
+import android.view.ViewStub
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.material.card.MaterialCardView
+import com.google.android.material.imageview.ShapeableImageView
 import java.io.IOException
 import java.io.InputStream
 import java.util.UUID
@@ -53,19 +58,31 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnLimpiarContactos: Button
     private lateinit var txtListaContactos: TextView
     private lateinit var btnIrAgregarContacto: Button
+    private lateinit var btnInfoSenal: ImageButton
+    private lateinit var btnInfoContactos: ImageButton
 
     private lateinit var screenInicio: View
     private lateinit var screenContactos: View
     private lateinit var screenInfo: View
+    private var screenAutores: View? = null
+    private lateinit var stubAutores: ViewStub
     private lateinit var navInicio: LinearLayout
     private lateinit var navContactos: LinearLayout
     private lateinit var navInfo: LinearLayout
+    private lateinit var navAutores: LinearLayout
     private lateinit var iconInicio: ImageView
     private lateinit var textInicio: TextView
     private lateinit var iconContactos: ImageView
     private lateinit var textContactos: TextView
     private lateinit var iconInfo: ImageView
     private lateinit var textInfo: TextView
+    private lateinit var iconAutores: ImageView
+    private lateinit var textAutores: TextView
+    private var cardAutorJoanie: MaterialCardView? = null
+    private var cardAutorSara: MaterialCardView? = null
+    private var cardAutorVictor: MaterialCardView? = null
+    private var cardAutorDomenica: MaterialCardView? = null
+    private var cardAutorAileen: MaterialCardView? = null
 
     private lateinit var contactPickerLauncher: ActivityResultLauncher<Intent>
 
@@ -96,12 +113,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
         enlazarVistas()
         configurarSelectorContactos()
         configurarNavegacion()
+        configurarAccionesAyuda()
 
         bluetoothAdapter = obtenerBluetoothAdapter()
         if (bluetoothAdapter == null) {
@@ -159,35 +176,49 @@ class MainActivity : AppCompatActivity() {
         btnLimpiarContactos = findViewById(R.id.btnLimpiarContactos)
         txtListaContactos = findViewById(R.id.txtListaContactos)
         btnIrAgregarContacto = findViewById(R.id.btnIrAgregarContacto)
+        btnInfoSenal = findViewById(R.id.btnInfoSenal)
+        btnInfoContactos = findViewById(R.id.btnInfoContactos)
 
         screenInicio = findViewById(R.id.screenInicio)
         screenContactos = findViewById(R.id.screenContactos)
         screenInfo = findViewById(R.id.screenInfo)
+        stubAutores = findViewById(R.id.stubAutores)
         navInicio = findViewById(R.id.navInicio)
         navContactos = findViewById(R.id.navContactos)
         navInfo = findViewById(R.id.navInfo)
+        navAutores = findViewById(R.id.navAutores)
         iconInicio = findViewById(R.id.iconInicio)
         textInicio = findViewById(R.id.textInicio)
         iconContactos = findViewById(R.id.iconContactos)
         textContactos = findViewById(R.id.textContactos)
         iconInfo = findViewById(R.id.iconInfo)
         textInfo = findViewById(R.id.textInfo)
+        iconAutores = findViewById(R.id.iconAutores)
+        textAutores = findViewById(R.id.textAutores)
     }
 
     private fun configurarNavegacion() {
         navInicio.setOnClickListener { mostrarPantalla("inicio") }
         navContactos.setOnClickListener { mostrarPantalla("contactos") }
         navInfo.setOnClickListener { mostrarPantalla("info") }
+        navAutores.setOnClickListener { mostrarPantalla("autores") }
     }
 
     private fun mostrarPantalla(pantalla: String) {
         screenInicio.visibility = if (pantalla == "inicio") View.VISIBLE else View.GONE
         screenContactos.visibility = if (pantalla == "contactos") View.VISIBLE else View.GONE
         screenInfo.visibility = if (pantalla == "info") View.VISIBLE else View.GONE
+        if (pantalla == "autores") {
+            asegurarPantallaAutores()
+            screenAutores?.visibility = View.VISIBLE
+        } else {
+            screenAutores?.visibility = View.GONE
+        }
 
         val inicioActivo = pantalla == "inicio"
         val contactosActivo = pantalla == "contactos"
         val infoActivo = pantalla == "info"
+        val autoresActivo = pantalla == "autores"
 
         iconInicio.setColorFilter(if (inicioActivo) colorPrimario else colorInactivo)
         textInicio.setTextColor(if (inicioActivo) colorPrimario else colorInactivo)
@@ -197,6 +228,69 @@ class MainActivity : AppCompatActivity() {
 
         iconInfo.setColorFilter(if (infoActivo) colorPrimario else colorInactivo)
         textInfo.setTextColor(if (infoActivo) colorPrimario else colorInactivo)
+
+        iconAutores.setColorFilter(if (autoresActivo) colorPrimario else colorInactivo)
+        textAutores.setTextColor(if (autoresActivo) colorPrimario else colorInactivo)
+    }
+
+    private fun configurarAccionesAyuda() {
+        btnInfoSenal.setOnClickListener {
+            mostrarToastAyuda("Cuando actives tu brazalete, se enviará un SMS de emergencia con tu ubicación a tus contactos.")
+        }
+
+        btnInfoContactos.setOnClickListener {
+            mostrarToastAyuda("Asegúrate de que los números sean correctos. Aquí se enviará tu alerta por SMS.")
+        }
+    }
+
+    private fun configurarAccionesAutores() {
+        cardAutorJoanie?.setOnClickListener { mostrarAutorModal(R.drawable.autor_joanie, "Joanie Barzola") }
+        cardAutorSara?.setOnClickListener { mostrarAutorModal(R.drawable.autor_sara, "Sara Ruiz") }
+        cardAutorVictor?.setOnClickListener { mostrarAutorModal(R.drawable.autor_victor, "Víctor Elbarro") }
+        cardAutorDomenica?.setOnClickListener { mostrarAutorModal(R.drawable.autor_domenica, "Domenica Macas") }
+        cardAutorAileen?.setOnClickListener { mostrarAutorModal(R.drawable.autor_aileen, "Aileen Macias") }
+    }
+
+    private fun asegurarPantallaAutores() {
+        if (screenAutores != null) return
+
+        val vistaAutores = stubAutores.inflate()
+        screenAutores = vistaAutores
+        cardAutorJoanie = vistaAutores.findViewById(R.id.cardAutorJoanie)
+        cardAutorSara = vistaAutores.findViewById(R.id.cardAutorSara)
+        cardAutorVictor = vistaAutores.findViewById(R.id.cardAutorVictor)
+        cardAutorDomenica = vistaAutores.findViewById(R.id.cardAutorDomenica)
+        cardAutorAileen = vistaAutores.findViewById(R.id.cardAutorAileen)
+        configurarAccionesAutores()
+    }
+
+    private fun mostrarToastAyuda(mensaje: String) {
+        Toast.makeText(this, mensaje, Toast.LENGTH_LONG).show()
+    }
+
+    private fun mostrarAutorModal(imageRes: Int, nombre: String) {
+        val vista = LayoutInflater.from(this).inflate(R.layout.dialog_author, null, false)
+        val imgAutor = vista.findViewById<ShapeableImageView>(R.id.imgAutorDialog)
+        val txtNombre = vista.findViewById<TextView>(R.id.txtNombreAutorDialog)
+        val btnCerrar = vista.findViewById<ImageButton>(R.id.btnCerrarDialogAutor)
+
+        imgAutor.setImageResource(imageRes)
+        txtNombre.text = nombre
+
+        val dialog = AlertDialog.Builder(this)
+            .setView(vista)
+            .create()
+
+        dialog.setOnShowListener {
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.window?.setDimAmount(0.72f)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                dialog.window?.setBackgroundBlurRadius(24)
+            }
+        }
+
+        btnCerrar.setOnClickListener { dialog.dismiss() }
+        dialog.show()
     }
 
     private fun obtenerBluetoothAdapter(): BluetoothAdapter? {
@@ -731,3 +825,5 @@ class MainActivity : AppCompatActivity() {
         }, tiempoMostrarDato)
     }
 }
+
+
