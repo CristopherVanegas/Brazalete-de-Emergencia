@@ -12,6 +12,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -115,6 +117,7 @@ class MainActivity : AppCompatActivity() {
 
     private val handler = Handler(Looper.getMainLooper())
     private val tiempoMostrarDato = 3000L
+    private var indicadorPulso: ObjectAnimator? = null
 
     private val colorPrimario = Color.parseColor("#0F66E6")
     private val colorInactivo = Color.parseColor("#A7A0F7")
@@ -129,7 +132,7 @@ class MainActivity : AppCompatActivity() {
         configurarSelectorContactos()
         configurarNavegacion()
         configurarAccionesAyuda()
-        txtIndicadorConexion.backgroundTintList = ColorStateList.valueOf(colorRojo)
+        mostrarIndicadorConexion(false)
         btnHeaderLogo.setOnClickListener { mostrarPantalla("inicio") }
 
         bluetoothAdapter = obtenerBluetoothAdapter()
@@ -474,7 +477,7 @@ class MainActivity : AppCompatActivity() {
         txtUltimoDato.text = detalle
         btnConectar.text = if (estaConectado) "Desconectar" else "Conectar brazalete"
         btnConectar.isEnabled = true
-        txtIndicadorConexion.backgroundTintList = ColorStateList.valueOf(if (estaConectado) colorVerde else colorRojo)
+        mostrarIndicadorConexion(estaConectado)
     }
 
     private fun escucharDatos() {
@@ -516,7 +519,7 @@ class MainActivity : AppCompatActivity() {
                 conectado = false
                 cerrarConexion()
                 btnConectar.text = "Conectar brazalete"
-                txtIndicadorConexion.backgroundTintList = ColorStateList.valueOf(colorRojo)
+                mostrarIndicadorConexion(false)
                 handler.postDelayed({
                     txtSenal.text = "-"
                     txtUltimoDato.text = "Esperando señal..."
@@ -869,9 +872,31 @@ class MainActivity : AppCompatActivity() {
         bluetoothSocket = null
     }
 
+    private fun mostrarIndicadorConexion(estaConectado: Boolean) {
+        indicadorPulso?.cancel()
+        indicadorPulso = null
+
+        if (estaConectado) {
+            txtIndicadorConexion.alpha = 1f
+            txtIndicadorConexion.backgroundTintList = ColorStateList.valueOf(colorVerde)
+            return
+        }
+
+        txtIndicadorConexion.backgroundTintList = ColorStateList.valueOf(colorRojo)
+        txtIndicadorConexion.alpha = 1f
+        indicadorPulso = ObjectAnimator.ofFloat(txtIndicadorConexion, View.ALPHA, 0.45f, 1f).apply {
+            duration = 1200L
+            repeatMode = ValueAnimator.REVERSE
+            repeatCount = ValueAnimator.INFINITE
+            start()
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         handler.removeCallbacksAndMessages(null)
+        indicadorPulso?.cancel()
+        indicadorPulso = null
         conectado = false
         cerrarConexion()
     }
